@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\School;
 use Illuminate\Http\Request;
 use App\Models\Student;
+use App\Models\Course;
+
 
 class StudentController extends Controller
 {
@@ -13,7 +15,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::all();
+        $students = Student::with('course_details')->get();
+
         return view('students.students', compact('students'));
     }
 
@@ -22,7 +25,8 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('students.create');
+        $courses = Course::where('status', 'active')->get();
+        return view('students.create', compact('courses'));
     }
 
     /**
@@ -34,6 +38,7 @@ class StudentController extends Controller
             'first_name' => 'required',
             'middle_name' => 'required',
             'last_name' => 'required',
+            'course_id' => 'required',
         ]);
 
         Student::create($request->all());
@@ -53,7 +58,8 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        return view('students.edit', compact('student'));
+        $courses = Course::where('status', 'active')->get();
+        return view('students.edit', compact('student', 'courses'));
     }
 
     /**
@@ -65,9 +71,10 @@ class StudentController extends Controller
             'first_name' => 'required',
             'middle_name' => 'required',
             'last_name' => 'required',
+            'course_id' => 'required',
         ]);
 
-        $student->update($request->only(['first_name', 'middle_name', 'last_name']));
+        $student->update($request->only(['first_name', 'middle_name', 'last_name', 'Course_id']));
 
         return redirect()->route('students.index')->with('success', 'Student updated successfully.');
     }

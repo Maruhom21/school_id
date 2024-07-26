@@ -24,6 +24,7 @@
                         <td>FIRST NAME</td>
                         <td>MIDDLE NAME</td>
                         <td>LAST NAME</td>
+                        <td>COURSE</td>
                         <td>ACTION</td>
                     </tr>
                     @foreach($students as $student)
@@ -32,6 +33,7 @@
                             <td>{{$student->first_name}}</td>
                             <td>{{$student->middle_name}}</td>
                             <td>{{$student->last_name}}</td>
+                            <td>{{$student->course_details->course_name}}</td>
                             <td>
                                 <a class="btn btn-success" href="{{route ('students.show', $student->id) }}"><i class="fa fa-search"> </i></a>
                                 <a class="btn btn-warning" href="{{route ('students.edit', $student->id) }}"><i class="fa fa-pencil"> </i></a>
